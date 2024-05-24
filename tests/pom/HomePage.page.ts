@@ -43,9 +43,19 @@ export class HomePage {
     }
 
     async goto() {
-        await this.page.goto('/');
+        await this.page.goto('/', { timeout: 60000 });
     }
-
+    /**
+     * This function uses for getting the [border-bottom-color] of HomeMenu when it focused
+     */
+    async getCSSOfHomeMenu() : Promise<string>{
+        const borderBottom = await this.homeMenu.evaluate((element) => {
+            const computed = window.getComputedStyle(element);
+            return computed.getPropertyValue('border-bottom-color');
+        });
+        return borderBottom;
+    }
+    
     async clickOnHighLightsMenu() {
         await this.highlightsMenu.click();
     }
